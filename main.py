@@ -2,7 +2,10 @@ from llama_index.llms.ollama import Ollama
 from llama_parse import LlamaParse
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, PromptTemplate
 from llama_index.core.embeddings import resolve_embed_model
+from llama_index.core.tools import QueryEngineTool, ToolMetadata
+from llama_index.core.agent import ReActAgent
 from dotenv import load_dotenv
+from prompts import context
 
 #load all variables and data from .env
 load_dotenv()
@@ -21,5 +24,19 @@ embed_model=resolve_embed_model(embed_model="local:BAAI/bge-m3")
 vector_index = VectorStoreIndex.from_documents(documents,embed_model=embed_model)
 query_engine = vector_index.as_query_engine(llm=llm)
 
-result = query_engine.query("What are some of the routes of the api?")
-print(result)
+tools= [
+    QueryEngineTool(
+        query_engine=query_engine,
+        metadata=ToolMetadata(
+            name="api_documentation",
+            description="this gives documentation about code for an API. Use this for reading documentation for an API"
+        )
+    )
+]
+
+code_llm=Ollama(model="deepseek-coder:1.3b")
+agent = ReActAgent.from_tools(tools, llm=code_llm, verbose=True, context=context)
+
+while (prompt:=input("enter your prompt: (q to quit)"))!="q":
+    response=agent.query(prompt)
+    print(response)
