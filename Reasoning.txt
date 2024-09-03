@@ -1,0 +1,2 @@
+we are using Vector Embedding to break complex sentences into smaller parts and  then using the embeddings to generate data based on 
+requirement
