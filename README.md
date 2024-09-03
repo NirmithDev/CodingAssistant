@@ -18,7 +18,7 @@ I want to build something similar to Cody AI Coding assistant and Learn more abo
 5. Adding support for DOCX and TXT files
 6. Adding supporting commands on how to use the AI (/help) commands
 
-### DM for Collaboration 🦅🦅
-
 ### Credits
 Initial Setup and files for testing and feature implementation credit to Tech With Tim
+
+### DM for Collaboration 🦅🦅
