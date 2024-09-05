@@ -6,11 +6,12 @@ from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from dotenv import load_dotenv
 from prompts import context
+from code_reader import code_reader
 
 #load all variables and data from .env
 load_dotenv()
 
-llm = Ollama(model="gemma2:2b",request_timeout=60.0)
+llm = Ollama(model="gemma2:2b")
 '''
 result=llm.complete("Write a python program saying Hello World")
 print(result)'''
@@ -30,8 +31,9 @@ tools= [
         metadata=ToolMetadata(
             name="api_documentation",
             description="this gives documentation about code for an API. Use this for reading documentation for an API"
-        )
-    )
+        ),
+    ),
+    code_reader,
 ]
 
 code_llm=Ollama(model="deepseek-coder:1.3b")
